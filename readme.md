@@ -8,9 +8,9 @@ libpcapy是一个python语言的pcap封装，利用python的ctypes库开发，�
 - 支持windows、linux和darwin(其他unix平台没有测试)
 - 函数接口和C语言保持一致，如果熟悉c语言的pcap开发，可以很方便的使用libpcapy
 
-# 已知bug(需要帮助)
+# 需要帮助
 
-- darwin和windows平台的抓包功能还不能正常使用
+- darwin和windows平台的抓包功能还不能正常使用（其他功能正常）
 
 如果你有解决思路或者解决办法，请麻烦告诉我一声，谢谢
 
@@ -21,7 +21,7 @@ libpcapy是一个python语言的pcap封装，利用python的ctypes库开发，�
 # 例子
 
 ## 读pcap文件
-'''
+```python
     from libpcapy import pcap, ptypes
     
     hpcap = pcap.pcap_open_offline('./test.pcap')
@@ -32,10 +32,10 @@ libpcapy是一个python语言的pcap封装，利用python的ctypes库开发，�
         print(pkthdr.caplen, pkthdr.len, packet)
             
     pcap.pcap_close(hpcap)
-'''
+```
 
 ## 写pcap文件
-'''
+```python
     from libpcapy import pcap, ptypes
     import time
     
@@ -54,20 +54,20 @@ libpcapy是一个python语言的pcap封装，利用python的ctypes库开发，�
     pcap.pcap_dump_flush(pdumper)
     pcap.pcap_dump_close(pdumper)
     pcap.pcap_close(hpcap)
-'''
+```
 
 ## 发送数据包
-'''
+```python
     from libpcapy import pcap, ptypes
 
     device = 'en0'
     hpcap = pcap.pcap_open_live(device, 65535, True, 0)
     pcap.pcap_sendpacket(hpcap, b'datadatadatatdatadafjasdkfjkasjdfkasdfklajsdfjlksaflsjkfjaskdjfasjfdk') 
     pcap.pcap_close(hpcap) 
-'''
+```
 
 ## 抓包
-'''
+```python
 from libpcapy import pcap, ptypes
 import time
 
@@ -80,7 +80,7 @@ def capture():
     hpcap = pcap.pcap_open_live(device, 65535, True, 0)
     pcap.pcap_loop(hpcap, -1, callback, None)
     pcap.pcap_close(hpcap)  
-'''
+```
 
 
 # 问题
