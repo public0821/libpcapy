@@ -76,10 +76,9 @@ device = 'en0'
 def callback(pkthdr, data, user_data):
     print('%d.%d(%d/%d) '%(pkthdr.ts.tv_sec, pkthdr.ts.tv_usec, pkthdr.caplen, pkthdr.len), data)
     
-def capture():
-    hpcap = pcap.pcap_open_live(device, 65535, True, 0)
-    pcap.pcap_loop(hpcap, -1, callback, None)
-    pcap.pcap_close(hpcap)  
+hpcap = pcap.pcap_open_live(device, 65535, True, 0)
+pcap.pcap_loop(hpcap, -1, callback, None)
+pcap.pcap_close(hpcap)  
 ```
 
 
