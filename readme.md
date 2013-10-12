@@ -22,48 +22,48 @@ libpcapy是一个python语言的pcap封装，利用python的ctypes库开发，�
 
 ## 读pcap文件
 ```python
-    from libpcapy import pcap, ptypes
+from libpcapy import pcap, ptypes
+
+hpcap = pcap.pcap_open_offline('./test.pcap')
+while True:
+(pkthdr, packet) = pcap.pcap_next(hpcap)
+if pkthdr is None:
+    break
+print(pkthdr.caplen, pkthdr.len, packet)
     
-    hpcap = pcap.pcap_open_offline('./test.pcap')
-    while True:
-        (pkthdr, packet) = pcap.pcap_next(hpcap)
-        if pkthdr is None:
-            break
-        print(pkthdr.caplen, pkthdr.len, packet)
-            
-    pcap.pcap_close(hpcap)
+pcap.pcap_close(hpcap)
 ```
 
 ## 写pcap文件
 ```python
-    from libpcapy import pcap, ptypes
-    import time
-    
-    hpcap = pcap.pcap_open_dead(ptypes.LINKTYPE_ETHERNET, 65535)
-    pdumper = pcap.pcap_dump_open(hpcap, './test.pcap')
-    
-    data = b'11111111111111111111111111111111111111111111'
-    pkthdr = ptypes.pcap_pkthdr()
-    pkthdr.caplen = len(data)
-    pkthdr.len = len(data)
-    now = time.time()
-    pkthdr.ts.tv_sec = int(now)
-    pkthdr.ts.tv_usec = int(now * 1000 * 1000)%(1000*1000)
-    pcap.pcap_dump(pdumper, pointer(pkthdr), data)
-    
-    pcap.pcap_dump_flush(pdumper)
-    pcap.pcap_dump_close(pdumper)
-    pcap.pcap_close(hpcap)
+from libpcapy import pcap, ptypes
+import time
+
+hpcap = pcap.pcap_open_dead(ptypes.LINKTYPE_ETHERNET, 65535)
+pdumper = pcap.pcap_dump_open(hpcap, './test.pcap')
+
+data = b'11111111111111111111111111111111111111111111'
+pkthdr = ptypes.pcap_pkthdr()
+pkthdr.caplen = len(data)
+pkthdr.len = len(data)
+now = time.time()
+pkthdr.ts.tv_sec = int(now)
+pkthdr.ts.tv_usec = int(now * 1000 * 1000)%(1000*1000)
+pcap.pcap_dump(pdumper, pointer(pkthdr), data)
+
+pcap.pcap_dump_flush(pdumper)
+pcap.pcap_dump_close(pdumper)
+pcap.pcap_close(hpcap)
 ```
 
 ## 发送数据包
 ```python
-    from libpcapy import pcap, ptypes
+from libpcapy import pcap, ptypes
 
-    device = 'en0'
-    hpcap = pcap.pcap_open_live(device, 65535, True, 0)
-    pcap.pcap_sendpacket(hpcap, b'datadatadatatdatadafjasdkfjkasjdfkasdfklajsdfjlksaflsjkfjaskdjfasjfdk') 
-    pcap.pcap_close(hpcap) 
+device = 'en0'
+hpcap = pcap.pcap_open_live(device, 65535, True, 0)
+pcap.pcap_sendpacket(hpcap, b'datadatadatatdatadafjasdkfjkasjdfkasdfklajsdfjlksafls') 
+pcap.pcap_close(hpcap) 
 ```
 
 ## 抓包
